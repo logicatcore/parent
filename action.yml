@@ -1,0 +1,6 @@
+name: 'Tagger demo using GitHub actions'
+description: "This action will be triggered by a the creation of a tag detected by *CSB* pattern search"
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
