@@ -21,11 +21,11 @@ def post_graphql_endpoint(query_or_mutation, token=sys.argv[1]):
         return response
 
 
-def good_response(response):
+def good_response(response, check_against=200):
     """
     Check the response code. If not OK, then print the response code, short description, and long description.
     """
-    if response.status_code == 200:
+    if response.status_code == check_against:
         return True
     else:
         return False
@@ -182,8 +182,8 @@ def make_tag(owner, repo_name, body):
     rest_api_endpoint = f"https://api.github.com/repos/{owner}/{repo_name}/releases"
     password = sys.argv[1]
     response = requests.post(rest_api_endpoint, json={"tag_name": body}, allow_redirects=True, verify=False, headers={"Content-Type": "application/json", "Authorization": f"Bearer {password}"})
-    if good_response(response):
-        return response
+
+    return response
 
 
 def get_new_tag(name, change_repo_tags, target_tag):
@@ -194,10 +194,9 @@ def get_new_tag(name, change_repo_tags, target_tag):
     :param change_repo_tags:
     :return:
     """
-    return "Voila"
+    return tags[0]
 
 
-only_nums = re.compile('[0-9]')
 for repo_name in changes.keys():
     change_tag_query = get_tag_query(repo_name, 10, "CSB")
     change_tags_response = post_graphql_endpoint(change_tag_query)
@@ -206,7 +205,7 @@ for repo_name in changes.keys():
     change_tags = [x["name"] for x in change_tags_data["data"]["repository"]["refs"]["nodes"]]
     new_tag = get_new_tag(repo_name, change_tags, tags[0])
     new_tag_creation_response = make_tag("logicatcore", repo_name, new_tag)
-    if good_response(new_tag_creation_response):
-        pass
+    if good_response(new_tag_creation_response, 201):
+        print(f"Successfully created new tag: {new_tag} on the repository {repo_name}")
     else:
         print("Tag creation failed")
