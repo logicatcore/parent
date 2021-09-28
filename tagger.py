@@ -180,7 +180,7 @@ def make_tag(owner, repo_name, body):
     :return:
     """
     rest_api_endpoint = f"https://api.github.com/repos/{owner}/{repo_name}/releases"
-    password = "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"
+    password = sys.argv[1]
     response = requests.post(rest_api_endpoint, json={"tag_name": body}, allow_redirects=True, verify=False, headers={"Content-Type": "application/json", "Authorization": f"Bearer {password}"})
     if good_response(response):
         return response
