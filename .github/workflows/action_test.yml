@@ -15,4 +15,4 @@ jobs:
       - name: Print hello world
         run: echo "Hello World"
       - name: Run the tagger script
-        run: "python tagger.py"
+        run: "python tagger.py ${{secrets.GRAPHQL_READ}}"
