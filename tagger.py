@@ -1,4 +1,5 @@
 import re
+import sys
 import json
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -6,7 +7,7 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-def post_graphql_endpoint(query_or_mutation, token="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"):
+def post_graphql_endpoint(query_or_mutation, token=sys.argv[1]):
     """
     Calls the POST method with a query or mutation and the provided token for authorisation
 
