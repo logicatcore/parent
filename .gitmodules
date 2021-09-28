@@ -1,5 +1,5 @@
 [submodule "child"]
-	path = child
+	path = child-1
 	url = https://github.com/logicatcore/child.git
 [submodule "child-2"]
 	path = child-2
